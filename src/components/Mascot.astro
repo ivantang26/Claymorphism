@@ -1,0 +1,32 @@
+---
+import { mascotSrc, type Mascot } from "~/data/worlds";
+interface Props {
+  name: Mascot;
+  mood?: "idle" | "happy";
+  alt: string;
+  /** CSS width the image renders at, used for the sizes hint */
+  sizes?: string;
+  bob?: boolean;
+  jump?: boolean;
+  eager?: boolean;
+  class?: string;
+  delay?: string;
+}
+const { name, mood = "idle", alt, sizes = "(min-width: 1024px) 240px, 160px", bob = true, jump = true, eager = false, class: cls, delay } = Astro.props;
+const { src, srcset } = mascotSrc(name, mood);
+---
+
+<img
+  class:list={["mascot", bob && "bob", jump && "jumpable", cls]}
+  src={src}
+  srcset={srcset}
+  sizes={sizes}
+  width="320"
+  height="320"
+  alt={alt}
+  loading={eager ? "eager" : "lazy"}
+  fetchpriority={eager ? "high" : undefined}
+  decoding="async"
+  data-mascot
+  style={delay ? `--bob-delay:${delay}` : undefined}
+/>

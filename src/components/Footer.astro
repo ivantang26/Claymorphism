@@ -1,0 +1,127 @@
+---
+import Icon from "./Icon.astro";
+import { SITE } from "~/data/site";
+---
+
+<footer class="footer">
+  <div class="wrap">
+    <section class="safety clay clay--mint" aria-labelledby="footer-safety">
+      <div class="safety-copy">
+        <h2 id="footer-safety">Safe by design</h2>
+        <p>No adverts. No chat. No trackers or cookies on this site. We never sell or share children's data.</p>
+      </div>
+      <ul class="safety-links" role="list">
+        <li><a href="/safety"><Icon name="shield-check" /> Safety &amp; privacy</a></li>
+        <li><a href="/safety#grown-ups"><Icon name="book-open-text" /> Privacy notice for grown-ups</a></li>
+        <li><a href="/safety#kids"><Icon name="heart" /> Privacy for kids</a></li>
+      </ul>
+    </section>
+
+    <div class="cols">
+      <div class="brand-col">
+        <a href="/" class="brand">
+          <img src="/art/mark-64.webp" alt="" width="36" height="36" loading="lazy" />
+          Doodle Math
+        </a>
+        <p>Maths practice for ages 5 to 11, matched to the national curriculum in England.</p>
+      </div>
+      <nav aria-label="Footer">
+        <h3 class="col-title">Explore</h3>
+        <ul role="list">
+          <li><a href="/play">Play the demo</a></li>
+          <li><a href="/parents">For parents</a></li>
+          <li><a href="/schools">For schools</a></li>
+          <li><a href="/pricing">Pricing</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Help">
+        <h3 class="col-title">Help</h3>
+        <ul role="list">
+          <li><a href="/signup">Start free trial</a></li>
+          <li><a href="/schools#book">Book a school demo</a></li>
+          <li><a href="/components">Clay component library</a></li>
+          <li><a href={`mailto:${SITE.helloEmail}`}>{SITE.helloEmail}</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <p class="fine">
+      Doodle Math is a concept product designed for a portfolio. Quotes and school names are illustrative.
+    </p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding: 48px 0 40px;
+  }
+  .safety {
+    display: grid;
+    gap: 20px;
+    padding: 28px;
+  }
+  .safety h2 {
+    font-size: var(--fs-h3);
+  }
+  .safety p {
+    margin-top: 6px;
+    max-width: 44ch;
+  }
+  .safety-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+    align-content: center;
+  }
+  .safety-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 800;
+    font-size: 1.1rem;
+  }
+  .cols {
+    display: grid;
+    gap: 32px;
+    margin-top: 48px;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.3rem;
+    text-decoration: none;
+  }
+  .brand-col p {
+    margin-top: 8px;
+    max-width: 36ch;
+  }
+  .col-title {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+  }
+  nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 6px;
+  }
+  .fine {
+    margin-top: 40px;
+    font-size: var(--fs-small);
+  }
+  @media (min-width: 768px) {
+    .safety {
+      grid-template-columns: 1.3fr 1fr;
+      padding: 36px 40px;
+    }
+    .cols {
+      grid-template-columns: 2fr 1fr 1fr;
+    }
+  }
+</style>

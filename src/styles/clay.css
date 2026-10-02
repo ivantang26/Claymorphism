@@ -1,0 +1,290 @@
+/* Clay material and components.
+   Recipe (spec 3): big radius, pastel fill, soft outer shadow, a light inner
+   shadow top-left and a darker inner shadow bottom-right. Depth scales with
+   the viewport through --clay-out / --clay-in in tokens.css. */
+
+.clay {
+  --clay: var(--clay-cream);
+  border-radius: var(--r-card);
+  background: var(--clay);
+  color: var(--ink);
+  box-shadow: var(--clay-out), var(--clay-in);
+}
+
+.clay--peach { --clay: var(--clay-peach); }
+.clay--mint { --clay: var(--clay-mint); }
+.clay--lilac { --clay: var(--clay-lilac); }
+.clay--sky { --clay: var(--clay-sky); }
+.clay--lemon { --clay: var(--clay-lemon); }
+.clay--pink { --clay: var(--clay-pink); }
+
+/* Neutral surface: follows the page theme, so its text follows too. */
+.clay--surface {
+  --clay: var(--surface);
+  color: var(--on-surface);
+}
+@media (prefers-color-scheme: dark) {
+  .clay--surface {
+    box-shadow:
+      var(--clay-out),
+      inset -6px -6px 14px rgb(0 0 0 / 0.28),
+      inset 6px 6px 14px rgb(255 255 255 / 0.07);
+  }
+}
+
+/* A pressed-in well: progress tracks, inputs, sockets. */
+.clay-well {
+  background: var(--well, rgb(45 42 62 / 0.06));
+  border-radius: var(--r-pill);
+  box-shadow: var(--clay-well);
+}
+@media (prefers-color-scheme: dark) {
+  .clay-well {
+    --well: rgb(0 0 0 / 0.22);
+    box-shadow: inset 5px 5px 10px rgb(0 0 0 / 0.35), inset -4px -4px 10px rgb(255 255 255 / 0.06);
+  }
+}
+
+/* ---------- button ---------- */
+
+.clay-btn {
+  --clay: var(--clay-peach);
+  --h: 64px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: var(--h);
+  padding: 0 30px;
+  border: 0;
+  border-radius: var(--r-pill);
+  background: var(--clay);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: var(--clay-out), var(--clay-in);
+  transition:
+    transform 0.32s var(--spring),
+    box-shadow 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.clay-btn:hover {
+  transform: translateY(-2px);
+}
+/* squish: scale 0.95 with a deeper inner shadow, 100ms in, spring back out */
+.clay-btn:active,
+.clay-btn[data-pressed] {
+  transform: scale(0.95);
+  box-shadow: 0 3px 6px rgb(var(--page-shadow-rgb) / 0.14), var(--clay-in-deep);
+  transition-duration: 0.1s;
+}
+.clay-btn svg {
+  width: 1.2em;
+  height: 1.2em;
+  flex: none;
+}
+.clay-btn--sm {
+  --h: 48px;
+  padding: 0 20px;
+  font-size: 1.05rem;
+}
+.clay-btn--xl {
+  --h: 76px;
+  padding: 0 38px;
+  font-size: 1.5rem;
+}
+.clay-btn--block {
+  width: 100%;
+}
+.clay-btn--peach { --clay: var(--clay-peach); }
+.clay-btn--lemon { --clay: var(--clay-lemon); }
+.clay-btn--mint { --clay: var(--clay-mint); }
+.clay-btn--lilac { --clay: var(--clay-lilac); }
+.clay-btn--sky { --clay: var(--clay-sky); }
+.clay-btn--cream { --clay: #fffdf9; }
+.clay-btn[disabled],
+.clay-btn[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clay-btn,
+  .clay-btn:hover {
+    transition: box-shadow 0.1s ease;
+    transform: none;
+  }
+}
+
+/* ---------- card with a mascot peeking over the top edge ---------- */
+
+.clay-card {
+  position: relative;
+  padding: 28px;
+}
+.clay-card--peek {
+  margin-top: 88px;
+  padding-top: 84px;
+}
+.clay-card__peek {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 150px;
+  translate: -50% -58%;
+}
+
+/* ---------- progress bar ---------- */
+
+.clay-progress {
+  --value: 0;
+  position: relative;
+  height: 34px;
+  padding: 5px;
+}
+.clay-progress__fill {
+  height: 100%;
+  width: calc(var(--value) * 100%);
+  min-width: 24px;
+  border-radius: var(--r-pill);
+  background: var(--fill, var(--clay-lemon));
+  box-shadow:
+    0 3px 6px rgb(45 42 62 / 0.14),
+    inset -3px -3px 6px rgb(0 0 0 / 0.1),
+    inset 3px 3px 6px rgb(255 255 255 / 0.6);
+  transition: width 0.6s var(--spring);
+}
+.clay-progress__star {
+  position: absolute;
+  top: 50%;
+  left: clamp(18px, calc(var(--value) * 100% - 4px), calc(100% - 18px));
+  width: 50px;
+  height: 50px;
+  translate: -50% -50%;
+  transition: left 0.6s var(--spring);
+  filter: drop-shadow(0 3px 3px rgb(45 42 62 / 0.2));
+}
+@media (prefers-reduced-motion: reduce) {
+  .clay-progress__fill,
+  .clay-progress__star {
+    transition: none;
+  }
+}
+
+/* ---------- badge: round clay coin with an icon ---------- */
+
+.clay-badge {
+  --size: 64px;
+  display: inline-grid;
+  place-items: center;
+  width: var(--size);
+  height: var(--size);
+  flex: none;
+  border-radius: 50%;
+  background: var(--clay, var(--clay-lemon));
+  color: var(--ink);
+  box-shadow:
+    0 6px 10px rgb(var(--page-shadow-rgb) / 0.16),
+    inset -5px -5px 10px rgb(0 0 0 / 0.1),
+    inset 5px 5px 10px rgb(255 255 255 / 0.6);
+}
+.clay-badge svg {
+  width: 46%;
+  height: 46%;
+}
+
+/* ---------- chips / segmented controls ---------- */
+
+.clay-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: var(--r-pill);
+  background: var(--clay, var(--clay-cream));
+  color: var(--ink);
+  font: 700 1rem/1 var(--font-body);
+  box-shadow:
+    0 4px 8px rgb(var(--page-shadow-rgb) / 0.12),
+    inset -3px -3px 7px rgb(0 0 0 / 0.08),
+    inset 3px 3px 7px rgb(255 255 255 / 0.6);
+}
+
+/* ---------- mascots ---------- */
+
+.mascot {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .bob {
+    animation: bob 3.2s ease-in-out infinite;
+    animation-delay: var(--bob-delay, 0s);
+  }
+  .jumpable {
+    transition: transform 0.45s var(--spring);
+  }
+  .jumpable:hover,
+  .jumpable[data-jump] {
+    animation: jump 0.6s var(--spring);
+  }
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0);
+  }
+  50% {
+    transform: translateY(-10px) rotate(-1.5deg);
+  }
+}
+
+@keyframes jump {
+  0% {
+    transform: translateY(0) scale(1, 1);
+  }
+  20% {
+    transform: translateY(4px) scale(1.08, 0.9);
+  }
+  55% {
+    transform: translateY(-36px) scale(0.95, 1.06);
+  }
+  80% {
+    transform: translateY(0) scale(1.05, 0.95);
+  }
+  100% {
+    transform: translateY(0) scale(1, 1);
+  }
+}
+
+@keyframes wobble {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  20% {
+    transform: rotate(-6deg);
+  }
+  40% {
+    transform: rotate(5deg);
+  }
+  60% {
+    transform: rotate(-3deg);
+  }
+  80% {
+    transform: rotate(2deg);
+  }
+}

@@ -1,0 +1,95 @@
+---
+import Mascot from "./Mascot.astro";
+import type { Mascot as M, ClayColour } from "~/data/worlds";
+
+interface Props {
+  title: string;
+  lede: string;
+  mascot: M;
+  mascotAlt: string;
+  island: ClayColour;
+  mood?: "idle" | "happy";
+}
+const { title, lede, mascot, mascotAlt, island, mood = "idle" } = Astro.props;
+---
+
+<section class="page-hero wrap">
+  <div class="copy">
+    <h1>{title}</h1>
+    <p class="lede">{lede}</p>
+    <div class="ctas"><slot /></div>
+  </div>
+  <div class="art">
+    <div class="rider">
+      <Mascot name={mascot} mood={mood} alt={mascotAlt} eager sizes="(min-width: 1024px) 240px, 160px" />
+    </div>
+    <img
+      class="island deco"
+      src={`/art/island-${island}-320.webp`}
+      srcset={`/art/island-${island}-320.webp 320w, /art/island-${island}-640.webp 640w`}
+      sizes="(min-width: 1024px) 300px, 200px"
+      width="320"
+      height="240"
+      alt=""
+      aria-hidden="true"
+    />
+  </div>
+</section>
+
+<style>
+  .page-hero {
+    display: grid;
+    gap: 24px;
+    padding-top: 36px;
+    padding-bottom: 24px;
+    align-items: center;
+  }
+  h1 {
+    font-size: clamp(2.4rem, 1.6rem + 3.4vw, 4.25rem);
+    max-width: 14ch;
+  }
+  .lede {
+    margin-top: 16px;
+    max-width: 40ch;
+  }
+  .ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 24px;
+  }
+  .ctas:empty {
+    display: none;
+  }
+  .art {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 200px;
+    justify-self: center;
+  }
+  .rider {
+    width: 82%;
+    margin-bottom: -28%;
+    position: relative;
+    z-index: 1;
+  }
+  .island {
+    width: 100%;
+  }
+  @media (min-width: 768px) {
+    .page-hero {
+      grid-template-columns: 1fr auto;
+      padding-top: 56px;
+    }
+    .art {
+      width: 240px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .art {
+      width: 300px;
+      margin-right: 4%;
+    }
+  }
+</style>

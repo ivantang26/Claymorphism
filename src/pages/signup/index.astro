@@ -1,0 +1,83 @@
+---
+import Base from "~/layouts/Base.astro";
+import TrialForm from "~/islands/TrialForm.svelte";
+import Icon from "~/components/Icon.astro";
+import { FAMILY_TRIAL_DAYS } from "~/lib/pricing";
+
+const perks = [
+  "All four worlds, from Year 1 to Year 6",
+  "A progress email every Sunday",
+  "Screen-time controls and quiet hours",
+  "No adverts, no chat, nothing to buy",
+];
+---
+
+<Base title="Start your free trial" description={`Start a ${FAMILY_TRIAL_DAYS}-day free trial of Doodle Math. We only ask for your email, your child's year group and, if you like, their first name.`}>
+  <section class="wrap page">
+    <div class="intro">
+      <h1>Start your free trial</h1>
+      <p class="lede">{FAMILY_TRIAL_DAYS} days of Doodle Math for your family. It takes a minute.</p>
+      <ul class="perks" role="list">
+        {perks.map((p) => <li><Icon name="check-circle" /> {p}</li>)}
+      </ul>
+      <img class="pip" src="/art/pip-idle-320.webp" alt="" width="200" height="200" loading="lazy" />
+    </div>
+    <div class="clay clay--surface card">
+      <TrialForm client:load />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page {
+    display: grid;
+    gap: 32px;
+    padding-top: 40px;
+    padding-bottom: 72px;
+    align-items: start;
+  }
+  @media (min-width: 1024px) {
+    .page {
+      grid-template-columns: 1fr 1.25fr;
+      gap: 64px;
+      padding-top: 64px;
+    }
+  }
+  h1 {
+    font-size: clamp(2.4rem, 1.8rem + 2.6vw, 3.75rem);
+  }
+  .lede {
+    margin-top: 14px;
+  }
+  .perks {
+    list-style: none;
+    margin: 24px 0 0;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+    font-weight: 700;
+  }
+  .perks li {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .pip {
+    display: none;
+    width: 180px;
+    margin-top: 32px;
+  }
+  @media (min-width: 1024px) {
+    .pip {
+      display: block;
+    }
+  }
+  .card {
+    padding: 24px;
+  }
+  @media (min-width: 768px) {
+    .card {
+      padding: 40px;
+    }
+  }
+</style>

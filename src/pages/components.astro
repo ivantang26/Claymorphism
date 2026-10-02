@@ -1,0 +1,352 @@
+---
+// The clay component library: tokens, shadow recipe and every component, live.
+import Base from "~/layouts/Base.astro";
+import ClayButton from "~/components/ClayButton.astro";
+import ClayCard from "~/components/ClayCard.astro";
+import ProgressBar from "~/components/ProgressBar.astro";
+import Badge from "~/components/Badge.astro";
+import Mascot from "~/components/Mascot.astro";
+import Icon from "~/components/Icon.astro";
+import tokensCss from "~/styles/tokens.css?raw";
+import { parseTokens, ratio } from "~/lib/contrast.js";
+import { WORLDS } from "~/data/worlds";
+
+const { light } = parseTokens(tokensCss);
+const swatches = [
+  { name: "--clay-peach", use: "Addition, primary buttons" },
+  { name: "--clay-mint", use: "Subtraction, success" },
+  { name: "--clay-lilac", use: "Times tables" },
+  { name: "--clay-sky", use: "Fractions" },
+  { name: "--clay-lemon", use: "Rewards, stars, play" },
+  { name: "--bg", use: "Page background" },
+].map((s) => {
+  const hex = light[s.name.slice(2)];
+  return { ...s, hex, ratio: ratio(light.ink, hex) };
+});
+
+const recipe = `.clay {
+  border-radius: 32px;
+  background: var(--clay-peach);
+  box-shadow:
+    0 14px 28px rgba(45, 42, 62, 0.14),
+    inset -8px -8px 16px rgba(0, 0, 0, 0.10),
+    inset 8px 8px 16px rgba(255, 255, 255, 0.55);
+}`;
+
+const buttonColours = ["peach", "lemon", "mint", "lilac", "sky", "cream"] as const;
+---
+
+<Base title="Clay component library" description="Doodle Math's claymorphism design system: colour tokens with contrast ratios, the clay shadow recipe, buttons, cards, progress bars, badges and mascots.">
+  <section class="wrap head">
+    <h1>Clay component library</h1>
+    <p class="lede">Everything on this site is built from these pieces. They're all live, so press them.</p>
+  </section>
+
+  <section class="section tight" aria-labelledby="c-colour">
+    <div class="wrap">
+      <h2 id="c-colour">Colour</h2>
+      <p class="sub measure">Text on clay is always ink, never white. Every pairing is checked at build time.</p>
+      <ul class="swatches" role="list">
+        {
+          swatches.map((s) => (
+            <li class="swatch clay" style={`--clay:${s.hex}`}>
+              <code>{s.name}</code>
+              <span class="hex">{s.hex.toUpperCase()}</span>
+              <span>{s.use}</span>
+              <span class="ratio">
+                <Icon name="check" /> {s.ratio.toFixed(1)}:1 with ink
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section tight" aria-labelledby="c-shadow">
+    <div class="wrap shadow-grid">
+      <div>
+        <h2 id="c-shadow">The clay recipe</h2>
+        <p class="sub">A soft outer shadow plus two inner shadows: light from the top-left, dark to the bottom-right. The same light hits the 3D mascots.</p>
+        <pre class="code clay clay--surface"><code>{recipe}</code></pre>
+      </div>
+      <div class="depths">
+        <div class="depth depth--sm"><span>Phone</span><small>8px outer blur</small></div>
+        <div class="depth depth--md"><span>Tablet</span><small>18px</small></div>
+        <div class="depth depth--lg"><span>Desktop</span><small>28px, full recipe</small></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section tight" aria-labelledby="c-type">
+    <div class="wrap">
+      <h2 id="c-type">Type</h2>
+      <div class="type clay clay--surface">
+        <p class="t-display">Display 84</p>
+        <p class="t-h2">Heading 48, Baloo 2</p>
+        <p class="t-body">Body 19, Nunito. Both fonts use a single-storey “a” and clear numerals: 0123456789.</p>
+        <p class="t-game" aria-label="Game numbers, 96 pixels">7 + 5</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section tight" aria-labelledby="c-buttons">
+    <div class="wrap">
+      <h2 id="c-buttons">Buttons</h2>
+      <p class="sub measure">64px tall pills. They squish to 95% with a deeper inner shadow when pressed, then spring back.</p>
+      <div class="row">
+        {
+          buttonColours.map((c) => (
+            <ClayButton colour={c}>{c[0].toUpperCase() + c.slice(1)}</ClayButton>
+          ))
+        }
+      </div>
+      <div class="row">
+        <ClayButton colour="lemon" size="xl" icon="play">Extra large</ClayButton>
+        <ClayButton colour="peach" icon="star">With icon</ClayButton>
+        <ClayButton colour="mint" size="sm">Small</ClayButton>
+        <ClayButton colour="lilac" disabled>Disabled</ClayButton>
+      </div>
+    </div>
+  </section>
+
+  <section class="section tight" aria-labelledby="c-cards">
+    <div class="wrap">
+      <h2 id="c-cards">Cards</h2>
+      <p class="sub measure">32px radius on desktop, 28px on tablets, 24px on phones. A mascot can peek over the top edge.</p>
+      <div class="cards">
+        {
+          WORLDS.slice(0, 3).map((w) => (
+            <ClayCard colour={w.colour} peek={{ name: w.mascot, alt: w.alt }}>
+              <h3>{w.name}</h3>
+              <p>{w.kidLine}</p>
+            </ClayCard>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section tight" aria-labelledby="c-progress">
+    <div class="wrap two">
+      <div>
+        <h2 id="c-progress">Progress</h2>
+        <p class="sub">A pressed-in clay track with a puffy fill and a star riding the end.</p>
+        <div class="bars">
+          <ProgressBar value={1} max={8} label="1 of 8 stars" />
+          <ProgressBar value={5} max={8} label="5 of 8 stars" fill="mint" />
+          <ProgressBar value={8} max={8} label="8 of 8 stars" fill="peach" />
+        </div>
+      </div>
+      <div>
+        <h2 id="c-badges">Badges</h2>
+        <p class="sub">Round clay coins with an icon.</p>
+        <div class="badges">
+          <Badge icon="star" colour="lemon" label="Star" size={80} />
+          <Badge icon="trophy" colour="peach" label="Trophy" size={80} />
+          <Badge icon="shield-check" colour="mint" label="Safe" size={80} />
+          <Badge icon="sparkle" colour="lilac" label="Sparkle" size={80} />
+          <Badge icon="ear" colour="sky" label="Read aloud" size={80} />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section tight last" aria-labelledby="c-mascots">
+    <div class="wrap">
+      <h2 id="c-mascots">Mascots</h2>
+      <p class="sub measure">Rendered in 3D and served as WebP at 320 and 640 pixels. Hover or tap to make them jump.</p>
+      <ul class="mascots" role="list">
+        {
+          WORLDS.map((w) => (
+            <li class={`clay clay--${w.colour}`}>
+              <Mascot name={w.mascot} alt={w.alt} sizes="140px" />
+              <Mascot name={w.mascot} mood="happy" alt={`${w.mascotName} cheering`} sizes="140px" bob={false} />
+              <p>
+                <strong>{w.mascotName}</strong>, {w.topic.toLowerCase()}
+              </p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .head {
+    padding-top: 48px;
+  }
+  .head .lede {
+    margin-top: 12px;
+  }
+  .tight {
+    padding-block: 40px;
+  }
+  .last {
+    padding-bottom: 80px;
+  }
+  .sub {
+    margin-top: 8px;
+  }
+  .swatches {
+    list-style: none;
+    margin: 24px 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 18px;
+  }
+  .swatch {
+    display: grid;
+    gap: 2px;
+    padding: 20px;
+    min-height: 170px;
+    align-content: end;
+  }
+  .swatch code {
+    font-weight: 800;
+  }
+  .hex {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.4rem;
+  }
+  .ratio {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    margin-top: 6px;
+    font-weight: 800;
+  }
+  .shadow-grid {
+    display: grid;
+    gap: 32px;
+    align-items: center;
+  }
+  @media (min-width: 900px) {
+    .shadow-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .code {
+    margin: 18px 0 0;
+    padding: 20px 24px;
+    overflow-x: auto;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  .depths {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  .depth {
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    gap: 2px;
+    aspect-ratio: 1;
+    background: var(--clay-peach);
+    color: var(--ink);
+    font-weight: 800;
+    text-align: center;
+    padding: 8px;
+  }
+  .depth small {
+    font-weight: 700;
+  }
+  .depth--sm {
+    border-radius: 24px;
+    box-shadow: 0 6px 8px rgb(45 42 62 / 0.14), inset -5px -5px 10px rgb(0 0 0 / 0.1), inset 5px 5px 10px rgb(255 255 255 / 0.55);
+  }
+  .depth--md {
+    border-radius: 28px;
+    box-shadow: 0 10px 18px rgb(45 42 62 / 0.14), inset -6px -6px 13px rgb(0 0 0 / 0.1), inset 6px 6px 13px rgb(255 255 255 / 0.55);
+  }
+  .depth--lg {
+    border-radius: 32px;
+    box-shadow: 0 14px 28px rgb(45 42 62 / 0.14), inset -8px -8px 16px rgb(0 0 0 / 0.1), inset 8px 8px 16px rgb(255 255 255 / 0.55);
+  }
+  .type {
+    margin-top: 20px;
+    padding: 28px;
+    display: grid;
+    gap: 14px;
+  }
+  .t-display {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: var(--fs-display);
+    line-height: 1;
+  }
+  .t-h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--fs-h2);
+    line-height: 1.1;
+  }
+  .t-game {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: var(--fs-game);
+    line-height: 1;
+  }
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 20px;
+    align-items: center;
+  }
+  .cards {
+    display: grid;
+    gap: 24px;
+    margin-top: 12px;
+  }
+  @media (min-width: 768px) {
+    .cards {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .two {
+    display: grid;
+    gap: 40px;
+  }
+  @media (min-width: 900px) {
+    .two {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .bars {
+    display: grid;
+    gap: 22px;
+    margin-top: 22px;
+    padding-right: 20px;
+  }
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin-top: 22px;
+  }
+  .mascots {
+    list-style: none;
+    margin: 24px 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+  }
+  .mascots li {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 18px;
+    align-items: end;
+  }
+  .mascots p {
+    grid-column: 1 / -1;
+    text-align: center;
+  }
+</style>

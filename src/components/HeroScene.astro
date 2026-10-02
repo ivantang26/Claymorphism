@@ -1,0 +1,190 @@
+---
+// Four mascots on floating clay islands.
+// Phone: two mascots, still islands. Tablet: four in a row.
+// Desktop: four islands at different depths, drifting gently.
+import Mascot from "./Mascot.astro";
+import { WORLDS } from "~/data/worlds";
+---
+
+<div class="scene">
+  {
+    WORLDS.map((w, i) => (
+      <div class:list={["unit", `unit--${w.mascot}`]}>
+        <div class="rider">
+          <Mascot
+            name={w.mascot}
+            alt={w.alt}
+            eager={i === 0 || i === 2}
+            sizes="(min-width: 1024px) 220px, (min-width: 768px) 150px, 130px"
+            delay={`${i * -0.8}s`}
+          />
+        </div>
+        <img
+          class="island deco"
+          src={`/art/island-${w.island}-320.webp`}
+          srcset={`/art/island-${w.island}-320.webp 320w, /art/island-${w.island}-640.webp 640w`}
+          sizes="(min-width: 1024px) 280px, (min-width: 768px) 190px, 170px"
+          width="320"
+          height="240"
+          alt=""
+          aria-hidden="true"
+          loading={i === 0 || i === 2 ? "eager" : "lazy"}
+        />
+      </div>
+    ))
+  }
+  <img class="sym sym--plus deco" src="/art/icon-plus-128.webp" alt="" aria-hidden="true" width="64" height="64" />
+  <img class="sym sym--times deco" src="/art/icon-times-128.webp" alt="" aria-hidden="true" width="64" height="64" />
+  <img class="sym sym--minus deco" src="/art/icon-minus-128.webp" alt="" aria-hidden="true" width="64" height="64" />
+  <img class="sym sym--divide deco" src="/art/icon-divide-128.webp" alt="" aria-hidden="true" width="64" height="64" />
+</div>
+
+<style>
+  .scene {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 8px;
+    padding-top: 24px;
+  }
+  .unit {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 170px;
+  }
+  .rider {
+    position: relative;
+    z-index: 1;
+    width: 84%;
+    margin-bottom: -30%;
+  }
+  .island {
+    width: 100%;
+  }
+
+  /* phone: Pip and Lulu only */
+  .unit--minty,
+  .unit--skye,
+  .sym {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .scene {
+      gap: 0;
+    }
+    .unit--minty,
+    .unit--skye {
+      display: flex;
+    }
+    .unit {
+      width: min(190px, 24%);
+    }
+    .unit:nth-child(even) {
+      margin-bottom: 36px;
+    }
+  }
+
+  /* desktop: islands at different depths. Sized in container units so the
+     composition holds from 1024px to wide screens. */
+  @media (min-width: 1024px) {
+    .scene {
+      display: block;
+      container-type: inline-size;
+      aspect-ratio: 100 / 98;
+      padding: 0;
+    }
+    .unit {
+      position: absolute;
+    }
+    .unit:nth-child(even) {
+      margin: 0;
+    }
+    .unit--minty {
+      left: 40cqw;
+      top: 0;
+      width: 29cqw;
+      z-index: 1;
+    }
+    .unit--skye {
+      left: 68cqw;
+      top: 21cqw;
+      width: 32cqw;
+      z-index: 2;
+    }
+    .unit--pip {
+      left: 0;
+      top: 20cqw;
+      width: 38cqw;
+      z-index: 3;
+    }
+    .unit--lulu {
+      left: 31cqw;
+      top: 43cqw;
+      width: 41cqw;
+      z-index: 4;
+    }
+    .sym {
+      display: block;
+      position: absolute;
+      z-index: 0;
+    }
+    .sym--minus {
+      left: 3cqw;
+      top: 6cqw;
+      width: 9cqw;
+    }
+    .sym--plus {
+      left: 24cqw;
+      top: 3cqw;
+      width: 10cqw;
+    }
+    .sym--divide {
+      left: 86cqw;
+      top: 4cqw;
+      width: 8cqw;
+    }
+    .sym--times {
+      left: 84cqw;
+      top: 72cqw;
+      width: 11cqw;
+    }
+  }
+
+  @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+    .unit {
+      animation: drift 7s ease-in-out infinite;
+    }
+    .unit--minty {
+      animation-duration: 8.5s;
+      animation-delay: -2s;
+    }
+    .unit--lulu {
+      animation-duration: 6.5s;
+      animation-delay: -4s;
+    }
+    .unit--skye {
+      animation-duration: 9s;
+      animation-delay: -1s;
+    }
+    .sym {
+      animation: drift 6s ease-in-out infinite reverse;
+    }
+    .sym--times {
+      animation-delay: -3s;
+    }
+  }
+
+  @keyframes drift {
+    0%,
+    100% {
+      translate: 0 0;
+    }
+    50% {
+      translate: 0 -14px;
+    }
+  }
+</style>

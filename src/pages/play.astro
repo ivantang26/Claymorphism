@@ -1,0 +1,22 @@
+---
+import Base from "~/layouts/Base.astro";
+import DemoGame from "~/islands/DemoGame.svelte";
+---
+
+<Base
+  title="Play the demo"
+  description="Play Pip's addition game in your browser: 8 questions, big number buttons, read aloud. No sign-up and nothing is stored."
+  bare
+>
+  <DemoGame client:load />
+  <noscript>
+    <p class="noscript">The game needs JavaScript. You can still <a href="/parents">read about Doodle Math</a>.</p>
+  </noscript>
+</Base>
+
+<style>
+  .noscript {
+    padding: 24px;
+    text-align: center;
+  }
+</style>

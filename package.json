@@ -1,0 +1,37 @@
+{
+  "name": "doodle-math",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Doodle Math marketing site: maths that feels like play, for children aged 5 to 11, their parents and their teachers.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "npm run check:contrast && astro build && npm run scan:trackers && npm run check:budget",
+    "preview": "node scripts/serve.mjs",
+    "check": "astro check",
+    "test": "vitest run",
+    "check:contrast": "node scripts/check-contrast.mjs",
+    "scan:trackers": "node scripts/scan-trackers.mjs",
+    "check:budget": "node scripts/check-budget.mjs",
+    "make:art": "node scripts/clay/render-all.mjs",
+    "make:audio": "node scripts/make-audio.mjs"
+  },
+  "dependencies": {
+    "@astrojs/node": "^11.1.6",
+    "@astrojs/svelte": "^9.0.1",
+    "@fontsource/baloo-2": "^5.3.0",
+    "@fontsource/nunito": "^5.3.0",
+    "astro": "^7.3.5",
+    "howler": "^2.2.4",
+    "svelte": "^5.57.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@phosphor-icons/core": "^2.1.1",
+    "@types/howler": "^2.2.13",
+    "@types/node": "^22.20.4",
+    "sharp": "^0.35.5",
+    "typescript": "~5.9.3",
+    "vitest": "^5.0.2"
+  }
+}

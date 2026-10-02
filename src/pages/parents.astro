@@ -1,0 +1,272 @@
+---
+import Faq from "~/components/Faq.astro";
+import Base from "~/layouts/Base.astro";
+import PageHero from "~/components/PageHero.astro";
+import ClayButton from "~/components/ClayButton.astro";
+import EmailPreview from "~/components/EmailPreview.astro";
+import ScreenTimePreview from "~/components/ScreenTimePreview.astro";
+import SafetyPromise from "~/components/SafetyPromise.astro";
+import Badge from "~/components/Badge.astro";
+import Icon from "~/components/Icon.astro";
+import { FAMILY_TRIAL_DAYS } from "~/lib/pricing";
+
+const emailPoints = [
+  { title: "What they played", body: "Worlds, minutes and stars for the week, day by day." },
+  { title: "What's clicking", body: "The facts they now answer quickly and confidently." },
+  { title: "One thing to try together", body: "A two-minute idea for the car, the bath or dinner." },
+];
+
+const adapts = [
+  { icon: "ear", colour: "sky", title: "Every question read aloud", body: "Pre-readers can play on their own. Sound starts off until they press Play." },
+  { icon: "puzzle-piece", colour: "peach", title: "Easier after two wrong answers", body: "Questions step down so they don't get stuck, and step up again as they get it." },
+  { icon: "heart", colour: "pink", title: "Mistakes are gentle", body: "A wobble and “have another go”. Never a red cross or a buzzer." },
+] as const;
+
+const faqs = [
+  { q: "Is it right for my 5-year-old?", a: "Yes. Pip's addition world starts with sums up to 5, every question is read aloud and counting dots appear when they need a hint." },
+  { q: "Does it follow what they learn at school?", a: "Every world maps to the national curriculum in England for Years 1 to 6, so practice lines up with the topics in class." },
+  { q: "How many children can use one plan?", a: "Up to 4 children, each with their own progress and their own weekly email section." },
+  { q: "Which devices does it work on?", a: "iPad and Android tablets, phones, Chromebooks and computers. Tablets can download worlds to play offline." },
+  { q: "What do you collect about my child?", a: "Only a first name if you choose to give one, their year group and their progress in the games. No photos, no location, no contacts, and nothing is shared or sold." },
+  { q: "Can I cancel?", a: `Yes, any time from your account. Nothing is charged during the ${FAMILY_TRIAL_DAYS}-day trial.` },
+];
+---
+
+<Base title="For parents" description="Short, playful maths sessions matched to the national curriculum, with a weekly progress email, screen-time controls and a strict safety promise.">
+  <PageHero
+    title="Screen time you can feel good about"
+    lede="Short, playful maths sessions matched to school, and a weekly email that shows you how it's going."
+    mascot="minty"
+    mascotAlt="Minty, the mint subtraction friend"
+    island="peach"
+  >
+    <ClayButton href="/signup" colour="peach">Start free trial</ClayButton>
+    <ClayButton href="/play" colour="lemon" icon="play">Play the demo</ClayButton>
+  </PageHero>
+
+  <!-- Weekly email: preview beside the explanation -->
+  <section class="section" aria-labelledby="email-title">
+    <div class="wrap split">
+      <div class="clay clay--peach email-stage">
+        <EmailPreview />
+      </div>
+      <div class="stack">
+        <h2 id="email-title">A progress email every Sunday</h2>
+        <ul class="points" role="list">
+          {
+            emailPoints.map((p) => (
+              <li>
+                <Icon name="check-circle" />
+                <div>
+                  <h3>{p.title}</h3>
+                  <p>{p.body}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="measure">No league tables and no comparing your child with anyone else's.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screen time: full-width slab -->
+  <section class="section" aria-labelledby="time-title">
+    <div class="wrap">
+      <div class="slab clay clay--sky">
+        <div class="stack">
+          <h2 id="time-title">You decide how long</h2>
+          <p>
+            Set a daily limit, quiet hours and whether play stops at the end of a world. These settings sit behind a
+            grown-up gate, so little fingers can't change them.
+          </p>
+          <p>When time is up, Pip says goodbye and saves their place. No countdowns and no “one more go” nudges.</p>
+        </div>
+        <div class="controls-card">
+          <p class="controls-title">Try the controls</p>
+          <ScreenTimePreview />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it adapts: vertical list with coins -->
+  <section class="section" aria-labelledby="adapt-title">
+    <div class="wrap narrow">
+      <h2 id="adapt-title">Built for how children learn</h2>
+      <ul class="adapt" role="list">
+        {
+          adapts.map((a) => (
+            <li>
+              <Badge icon={a.icon} colour={a.colour} size={72} />
+              <div>
+                <h3>{a.title}</h3>
+                <p>{a.body}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- Safety -->
+  <section class="section" aria-labelledby="safe-title">
+    <div class="wrap">
+      <div class="safe clay clay--mint">
+        <div class="stack">
+          <h2 id="safe-title">Our safety promise</h2>
+          <p>We follow UK GDPR and the ICO's Age Appropriate Design Code. High privacy is the default, not a setting.</p>
+          <a class="link" href="/safety">How we keep children safe <Icon name="arrow-right" /></a>
+        </div>
+        <SafetyPromise />
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" aria-labelledby="faq-title">
+    <div class="wrap narrow">
+      <h2 id="faq-title">Questions from parents</h2>
+      <Faq items={faqs} />
+    </div>
+  </section>
+
+  <section class="section cta-band" aria-labelledby="cta-title">
+    <div class="wrap">
+      <div class="band clay clay--lemon">
+        <img src="/art/pip-happy-320.webp" alt="" width="160" height="160" loading="lazy" />
+        <div>
+          <h2 id="cta-title">Try it free for {FAMILY_TRIAL_DAYS} days</h2>
+          <p>No payment details needed to start.</p>
+        </div>
+        <ClayButton href="/signup" colour="peach">Start free trial</ClayButton>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .narrow {
+    max-width: calc(820px + var(--gutter) * 2);
+  }
+  .split {
+    display: grid;
+    gap: 32px;
+    align-items: center;
+  }
+  @media (min-width: 900px) {
+    .split {
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+    }
+  }
+  .email-stage {
+    padding: 22px;
+  }
+  @media (min-width: 768px) {
+    .email-stage {
+      padding: 36px;
+      rotate: -1.5deg;
+    }
+  }
+  .stack {
+    --stack: 18px;
+  }
+  .points {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 16px;
+  }
+  .points li {
+    display: flex;
+    gap: 12px;
+  }
+  .points :global(.icon) {
+    width: 28px;
+    height: 28px;
+    margin-top: 2px;
+  }
+  .points h3 {
+    font-size: 1.3rem;
+  }
+  .slab {
+    display: grid;
+    gap: 28px;
+    padding: 28px 22px;
+    align-items: center;
+  }
+  @media (min-width: 900px) {
+    .slab {
+      grid-template-columns: 1.1fr 1fr;
+      padding: 48px;
+    }
+  }
+  .controls-card {
+    background: #fffdf9;
+    color: var(--ink);
+    border-radius: var(--r-inner);
+    padding: 24px;
+    box-shadow: 0 10px 22px rgb(45 42 62 / 0.14);
+  }
+  .controls-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-bottom: 12px;
+  }
+  .adapt {
+    list-style: none;
+    margin: 28px 0 0;
+    padding: 0;
+    display: grid;
+    gap: 24px;
+  }
+  .adapt li {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+  .adapt h3 {
+    font-size: 1.4rem;
+  }
+  .safe {
+    display: grid;
+    gap: 28px;
+    padding: 28px 22px;
+  }
+  @media (min-width: 900px) {
+    .safe {
+      grid-template-columns: 1fr 1.1fr;
+      padding: 48px;
+      align-items: center;
+    }
+  }
+  .link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 800;
+  }
+  .band {
+    display: grid;
+    gap: 18px;
+    justify-items: center;
+    text-align: center;
+    padding: 32px 24px;
+  }
+  .band img {
+    width: 140px;
+  }
+  @media (min-width: 768px) {
+    .band {
+      grid-template-columns: auto 1fr auto;
+      text-align: left;
+      justify-items: start;
+      align-items: center;
+      padding: 28px 48px;
+    }
+  }
+</style>

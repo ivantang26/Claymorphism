@@ -1,0 +1,163 @@
+---
+// Sample of the weekly progress email parents receive.
+import Icon from "./Icon.astro";
+
+const days = [
+  { d: "Mon", min: 15 },
+  { d: "Tue", min: 20 },
+  { d: "Wed", min: 0 },
+  { d: "Thu", min: 25 },
+  { d: "Fri", min: 10 },
+  { d: "Sat", min: 25 },
+  { d: "Sun", min: 0 },
+];
+const most = Math.max(...days.map((x) => x.min));
+---
+
+<figure class="email" aria-label="Sample weekly progress email">
+  <div class="head">
+    <img src="/art/minty-happy-320.webp" alt="" width="56" height="56" loading="lazy" />
+    <div>
+      <p class="from">Minty at Doodle Math</p>
+      <p class="subject">Maya's week: 42 stars and a new level</p>
+    </div>
+  </div>
+
+  <dl class="stats">
+    <div><dt>Stars</dt><dd>42</dd></div>
+    <div><dt>Play time</dt><dd>1h 35m</dd></div>
+    <div><dt>Days played</dt><dd>5 of 7</dd></div>
+  </dl>
+
+  <div
+    class="chart"
+    role="img"
+    aria-label="Minutes played each day: Monday 15, Tuesday 20, Wednesday 0, Thursday 25, Friday 10, Saturday 25, Sunday 0"
+  >
+    {
+      days.map((x) => (
+        <div class="bar-col">
+          <div class="bar" style={`--h:${Math.max(0.06, x.min / most).toFixed(2)}`} data-empty={x.min === 0 ? "" : undefined} />
+          <span>{x.d}</span>
+        </div>
+      ))
+    }
+  </div>
+
+  <div class="notes">
+    <p><Icon name="trophy" /> <span><strong>Getting good at:</strong> number bonds to 10</span></p>
+    <p>
+      <Icon name="puzzle-piece" />
+      <span><strong>Try together:</strong> taking away across 10. Ask Maya, “What is 13 take away 5?”</span>
+    </p>
+  </div>
+  <figcaption>Sample email. It arrives every Sunday morning.</figcaption>
+</figure>
+
+<style>
+  .email {
+    margin: 0;
+    background: #fffdf9;
+    color: var(--ink);
+    border-radius: var(--r-inner);
+    padding: 20px;
+    box-shadow: 0 8px 18px rgb(45 42 62 / 0.14);
+  }
+  .head {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  .head img {
+    width: 56px;
+    height: 56px;
+    background: var(--clay-mint);
+    border-radius: 50%;
+    padding: 4px;
+  }
+  .from {
+    font-size: 0.95rem;
+  }
+  .subject {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.2rem;
+    line-height: 1.2;
+    margin: 0 !important;
+  }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin: 18px 0 0;
+  }
+  .stats div {
+    background: var(--clay-lemon);
+    border-radius: 16px;
+    padding: 10px 12px;
+    box-shadow:
+      inset -3px -3px 6px rgb(0 0 0 / 0.08),
+      inset 3px 3px 6px rgb(255 255 255 / 0.6);
+  }
+  .stats dt {
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+  .stats dd {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.5rem;
+    line-height: 1.1;
+  }
+  .chart {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    height: 110px;
+    margin-top: 18px;
+    align-items: end;
+  }
+  .bar-col {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    height: 100%;
+    gap: 4px;
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+  .bar {
+    align-self: end;
+    height: calc(var(--h) * 100%);
+    border-radius: 10px 10px 6px 6px;
+    background: var(--clay-sky);
+    box-shadow:
+      inset -3px -3px 6px rgb(0 0 0 / 0.1),
+      inset 3px 3px 6px rgb(255 255 255 / 0.6);
+  }
+  .bar[data-empty] {
+    background: rgb(45 42 62 / 0.1);
+    box-shadow: none;
+  }
+  .notes {
+    margin-top: 16px;
+    display: grid;
+    gap: 10px;
+  }
+  .notes p {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin: 0;
+    line-height: 1.45;
+  }
+  .notes :global(.icon) {
+    margin-top: 3px;
+  }
+  figcaption {
+    margin-top: 14px;
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+</style>

@@ -1,0 +1,46 @@
+---
+import Badge from "./Badge.astro";
+
+const items = [
+  { icon: "prohibit", colour: "peach", title: "No adverts", body: "Not in the app and not on this site." },
+  { icon: "chat-circle-slash", colour: "lilac", title: "No chat", body: "Children can't message anyone, and no one can message them." },
+  { icon: "shopping-cart-simple", colour: "lemon", title: "Nothing to buy", body: "No in-app purchases, loot boxes or paid extras." },
+  { icon: "eye-slash", colour: "sky", title: "No tracking", body: "No profiling, no third-party trackers and no selling data." },
+] as const;
+---
+
+<ul class="promise" role="list">
+  {
+    items.map((i) => (
+      <li>
+        <Badge icon={i.icon} colour={i.colour} size={56} />
+        <div>
+          <h3>{i.title}</h3>
+          <p>{i.body}</p>
+        </div>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .promise {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 16px;
+  }
+  li {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+  }
+  h3 {
+    font-size: 1.2rem;
+  }
+  p {
+    font-size: 1rem;
+    line-height: 1.45;
+  }
+</style>

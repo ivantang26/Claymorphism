@@ -1,0 +1,124 @@
+---
+// Sample class dashboard, as teachers see it.
+import ProgressBar from "./ProgressBar.astro";
+
+const pupils = [
+  { name: "Amara O.", stars: 58, times: 0.9, help: null },
+  { name: "Jack T.", stars: 41, times: 0.72, help: null },
+  { name: "Zainab H.", stars: 37, times: 0.64, help: "7 × 8" },
+  { name: "Oliver P.", stars: 22, times: 0.4, help: "6 × 7" },
+  { name: "Freya M.", stars: 49, times: 0.81, help: null },
+];
+---
+
+<figure class="dash" aria-labelledby="dash-cap">
+  <div class="top">
+    <p class="cls">Class 4B</p>
+    <p class="wk">Times tables, this week</p>
+  </div>
+  <div class="scroll">
+    <table>
+      <caption class="sr-only">Sample class: stars this week and times tables progress for each pupil</caption>
+      <thead>
+        <tr><th scope="col">Pupil</th><th scope="col">Stars</th><th scope="col">Progress</th><th scope="col">Needs help</th></tr>
+      </thead>
+      <tbody>
+        {
+          pupils.map((p) => (
+            <tr>
+              <th scope="row">{p.name}</th>
+              <td class="num">{p.stars}</td>
+              <td class="bar">
+                <ProgressBar value={p.times} label={`${p.name} times tables progress`} fill="lilac" star={false} class="mini" />
+              </td>
+              <td>{p.help ? <span class="help">{p.help}</span> : <span class="ok">On track</span>}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+  <figcaption id="dash-cap">Sample class dashboard. Pupils appear by first name and initial only.</figcaption>
+</figure>
+
+<style>
+  .dash {
+    margin: 0;
+    background: #fffdf9;
+    color: var(--ink);
+    border-radius: var(--r-inner);
+    padding: 20px;
+    box-shadow: 0 10px 22px rgb(45 42 62 / 0.16);
+  }
+  .scroll {
+    overflow-x: auto;
+  }
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 4px 12px;
+    flex-wrap: wrap;
+  }
+  .cls {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.5rem;
+  }
+  .wk {
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin: 0 !important;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+    font-size: 0.98rem;
+  }
+  thead th {
+    text-align: left;
+    font-size: 0.85rem;
+    padding: 6px 8px;
+  }
+  tbody th,
+  td {
+    padding: 8px;
+    text-align: left;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  tbody tr + tr {
+    border-top: 2px solid rgb(45 42 62 / 0.08);
+  }
+  .num {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+  }
+  .bar {
+    width: 36%;
+    min-width: 110px;
+  }
+  .bar :global(.mini) {
+    height: 22px;
+    padding: 4px;
+  }
+  .help,
+  .ok {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: var(--r-pill);
+    font-size: 0.85rem;
+  }
+  .help {
+    background: var(--clay-peach);
+  }
+  .ok {
+    background: var(--clay-mint);
+  }
+  figcaption {
+    margin-top: 12px;
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+</style>

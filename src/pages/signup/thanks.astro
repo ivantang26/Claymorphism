@@ -1,0 +1,19 @@
+---
+// Landing page after a sign-up posted without JavaScript.
+import Base from "~/layouts/Base.astro";
+import PageHero from "~/components/PageHero.astro";
+import ClayButton from "~/components/ClayButton.astro";
+---
+
+<Base title="You're in" description="Your Doodle Math free trial is ready. Check your email for the link to set up the app.">
+  <PageHero
+    title="You're in!"
+    lede="We've emailed you a link to set up the app. Nothing is charged during the trial, and we'll remind you before it ends."
+    mascot="pip"
+    mood="happy"
+    mascotAlt="Pip cheering with both arms up"
+    island="lilac"
+  >
+    <ClayButton href="/play" colour="lemon" icon="play">Play the demo</ClayButton>
+  </PageHero>
+</Base>

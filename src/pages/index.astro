@@ -1,0 +1,577 @@
+---
+import Base from "~/layouts/Base.astro";
+import ClayButton from "~/components/ClayButton.astro";
+import ClayCard from "~/components/ClayCard.astro";
+import HeroScene from "~/components/HeroScene.astro";
+import EmailPreview from "~/components/EmailPreview.astro";
+import ScreenTimePreview from "~/components/ScreenTimePreview.astro";
+import SafetyPromise from "~/components/SafetyPromise.astro";
+import ClassDashboard from "~/components/ClassDashboard.astro";
+import Icon from "~/components/Icon.astro";
+import { WORLDS } from "~/data/worlds";
+import { QUOTES } from "~/data/testimonials";
+import { YEARS } from "~/data/curriculum";
+import { FAMILY, FAMILY_TRIAL_DAYS, SCHOOL_FREE_PUPILS, SCHOOL_PER_PUPIL, annualAsMonthly, gbp } from "~/lib/pricing";
+
+const steps = [
+  { icon: "play", title: "Play", body: "Tap the big number buttons. Your friend reads every question out loud." },
+  { icon: "star", title: "Earn stars", body: "Every right answer wins a star. Wrong ones just mean “have another go”." },
+  { icon: "levelup", title: "Level up", body: "Questions get harder as you grow, and easier when you need a hand." },
+];
+---
+
+<Base title="Doodle Math" description="Maths games for children aged 5 to 11, with four clay friends, curriculum-matched practice and a weekly progress email for grown-ups.">
+  <!-- Hero: kid-readable -->
+  <section class="hero wrap" aria-labelledby="hero-title">
+    <div class="hero-copy">
+      <p class="age-chip clay-chip">Ages 5 to 11</p>
+      <h1 id="hero-title">Maths that feels like play!</h1>
+      <p class="lede">Play number games with four clay friends. Win stars as you learn!</p>
+      <div class="ctas">
+        <ClayButton href="/play" colour="lemon" size="xl" icon="play">Play now</ClayButton>
+        <ClayButton href="/signup" colour="peach">Start free trial</ClayButton>
+      </div>
+    </div>
+    <HeroScene />
+  </section>
+
+  <!-- The four worlds -->
+  <section class="section worlds" aria-labelledby="worlds-title">
+    <div class="wrap">
+      <h2 id="worlds-title">Four worlds to explore</h2>
+      <p class="sub">Pick a friend and start playing.</p>
+    </div>
+    <ul class="world-list wrap" role="list">
+      {
+        WORLDS.map((w) => (
+          <ClayCard as="li" colour={w.colour} peek={{ name: w.mascot, alt: w.alt }} class="world">
+            <p class="topic">{w.topic}</p>
+            <h3>{w.name}</h3>
+            <p class="kid">{w.kidLine}</p>
+            <p class="ages">
+              <strong>{w.ages}</strong>
+              <br />
+              {w.years}
+            </p>
+            {w.id === "addition" && (
+              <a class="world-play" href="/play">
+                Play with Pip <Icon name="arrow-right" />
+              </a>
+            )}
+          </ClayCard>
+        ))
+      }
+    </ul>
+  </section>
+
+  <!-- How it works -->
+  <section class="section how" aria-labelledby="how-title">
+    <div class="wrap">
+      <h2 id="how-title">How it works</h2>
+      <ol class="path" role="list">
+        {
+          steps.map((s) => (
+            <li class="stop">
+              <img
+                class="stop-icon"
+                src={s.icon === "star" ? "/art/star-256.webp" : `/art/icon-${s.icon}-256.webp`}
+                alt=""
+                width="128"
+                height="128"
+                loading="lazy"
+              />
+              <h3>{s.title}</h3>
+              <p>{s.body}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- For parents -->
+  <section class="section parents" aria-labelledby="parents-title">
+    <div class="wrap">
+      <h2 id="parents-title">For grown-ups at home</h2>
+      <p class="sub measure">Screen time that actually helps, and you can see how it's going.</p>
+      <div class="bento">
+        <div class="clay clay--peach tile tile--email">
+          <h3>A progress email every Sunday</h3>
+          <p>What they played, what's clicking and one thing to practise together.</p>
+          <EmailPreview />
+        </div>
+        <div class="clay clay--sky tile tile--time">
+          <h3>Screen-time controls</h3>
+          <p>Set a daily limit and quiet hours. Try them:</p>
+          <ScreenTimePreview />
+        </div>
+        <div class="clay clay--mint tile tile--safe">
+          <h3 class="sr-only">Our safety promise</h3>
+          <SafetyPromise />
+          <a class="more" href="/safety">Read our safety promise <Icon name="arrow-right" /></a>
+        </div>
+      </div>
+      <p class="after"><a href="/parents">More for parents <Icon name="arrow-right" /></a></p>
+    </div>
+  </section>
+
+  <!-- For teachers -->
+  <section class="section teachers" aria-labelledby="teachers-title">
+    <div class="wrap">
+      <div class="slab clay clay--lilac">
+        <div class="slab-copy">
+          <p class="kicker">For teachers</p>
+          <h2 id="teachers-title">Homework that marks itself</h2>
+          <p>
+            Every question maps to the national curriculum in England, Years 1 to 6. Set a world as homework and see who
+            needs help before the next lesson.
+          </p>
+          <p class="years-label">See what each year covers:</p>
+          <ul class="years" role="list">
+            {
+              YEARS.map((y) => (
+                <li>
+                  <a class="clay-chip" href={`/schools?year=${y}#curriculum`}>
+                    Year {y}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+          <div class="slab-ctas">
+            <ClayButton href="/schools#book" colour="cream" icon="calendar-blank">Book a school demo</ClayButton>
+          </div>
+        </div>
+        <ClassDashboard />
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="section quotes" aria-labelledby="quotes-title">
+    <div class="wrap">
+      <h2 id="quotes-title">What families and teachers say</h2>
+      <ul class="quote-grid" role="list">
+        {
+          QUOTES.map((q, i) => (
+            <li class:list={["clay", "clay--surface", "quote", `quote--${i}`]}>
+              <blockquote>
+                <p>“{q.quote}”</p>
+              </blockquote>
+              <div class="who">
+                <img class={`avatar avatar--${q.mascot}`} src={`/art/${q.mascot}-idle-320.webp`} alt="" width="52" height="52" loading="lazy" />
+                <p>
+                  <strong>{q.name}</strong>
+                  <br />
+                  {q.role}
+                </p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- Pricing summary -->
+  <section class="section pricing" aria-labelledby="pricing-title">
+    <div class="wrap">
+      <h2 id="pricing-title">Simple prices</h2>
+      <div class="price-pair">
+        <div class="clay clay--surface price">
+          <h3>Families</h3>
+          <p class="big">{gbp(annualAsMonthly())}<span> a month</span></p>
+          <p>Billed {gbp(FAMILY.annual.price)} a year, or {gbp(FAMILY.monthly.price)} month to month. Up to 4 children.</p>
+          <p class="note"><Icon name="check-circle" /> {FAMILY_TRIAL_DAYS}-day free trial, cancel any time</p>
+          <ClayButton href="/signup" colour="peach" block>Start free trial</ClayButton>
+        </div>
+        <div class="clay clay--lemon price">
+          <h3>Schools</h3>
+          <p class="big">Free<span> for {SCHOOL_FREE_PUPILS} pupils</span></p>
+          <p>After that, {gbp(SCHOOL_PER_PUPIL)} per pupil per year for the whole school.</p>
+          <p class="note"><Icon name="check-circle" /> Class dashboards and homework included</p>
+          <ClayButton href="/schools#book" colour="cream" block>Book a school demo</ClayButton>
+        </div>
+      </div>
+      <p class="after"><a href="/pricing">See full pricing <Icon name="arrow-right" /></a></p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* ---------- hero ---------- */
+  .hero {
+    display: grid;
+    gap: 8px;
+    padding-top: 28px;
+    padding-bottom: 24px;
+  }
+  .hero-copy {
+    text-align: center;
+    display: grid;
+    justify-items: center;
+    gap: 18px;
+  }
+  .age-chip {
+    --clay: var(--clay-lemon);
+    min-height: 36px;
+    font-size: 0.95rem;
+  }
+  .hero h1 {
+    max-width: 11ch;
+  }
+  @media (min-width: 1024px) {
+    .hero h1 {
+      max-width: none;
+    }
+  }
+  .ctas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 6px;
+  }
+  @media (min-width: 1024px) {
+    .hero {
+      grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr);
+      align-items: center;
+      min-height: min(680px, calc(100dvh - 90px));
+      padding-top: 24px;
+    }
+    .hero-copy {
+      text-align: left;
+      justify-items: start;
+    }
+    .ctas {
+      justify-content: flex-start;
+    }
+  }
+
+  .sub {
+    margin-top: 10px;
+    font-size: 1.15rem;
+  }
+  .after {
+    margin-top: 28px;
+    font-weight: 800;
+  }
+  .after a,
+  .more,
+  .world-play {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 800;
+  }
+
+  /* ---------- worlds: swipe on phones, 2x2 on tablets, 4 across on desktop ---------- */
+  .world-list {
+    list-style: none;
+    margin: 0;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 78%;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    padding-top: 8px;
+    padding-bottom: 28px;
+    overscroll-behavior-x: contain;
+  }
+  .world {
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    text-align: center;
+  }
+  .topic {
+    align-self: center;
+    font-weight: 800;
+    font-size: 0.95rem;
+    padding: 2px 12px;
+    border-radius: var(--r-pill);
+    background: rgb(255 255 255 / 0.55);
+  }
+  .world h3 {
+    font-size: 1.6rem;
+  }
+  .kid {
+    font-size: 1.15rem;
+    font-weight: 700;
+  }
+  .ages {
+    margin-top: auto !important;
+    padding-top: 10px;
+    line-height: 1.4;
+  }
+  .world-play {
+    align-self: center;
+    margin-top: 8px;
+  }
+  @media (min-width: 768px) {
+    .world-list {
+      grid-auto-flow: row;
+      grid-template-columns: repeat(2, 1fr);
+      overflow: visible;
+      gap: 24px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .world-list {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  /* ---------- how it works: stops along a clay-dot path ---------- */
+  .path {
+    list-style: none;
+    margin: 36px 0 0;
+    padding: 0;
+    display: grid;
+    gap: 28px;
+    position: relative;
+  }
+  .path::before {
+    content: "";
+    position: absolute;
+    left: 43px;
+    top: 40px;
+    bottom: 40px;
+    width: 12px;
+    background: radial-gradient(circle, var(--clay-lemon) 5px, transparent 6px) center top / 12px 24px repeat-y;
+  }
+  .stop {
+    position: relative;
+    display: grid;
+    grid-template-columns: 98px 1fr;
+    column-gap: 18px;
+    align-items: center;
+  }
+  .stop-icon {
+    grid-row: span 2;
+    width: 98px;
+    height: 98px;
+    padding: 10px;
+    border-radius: 50%;
+    background: var(--surface);
+    box-shadow: var(--clay-out), var(--clay-in);
+  }
+  .stop h3 {
+    align-self: end;
+    font-size: 1.6rem;
+  }
+  .stop p {
+    align-self: start;
+    max-width: 30ch;
+  }
+  @media (min-width: 768px) {
+    .path {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .path::before {
+      left: 12%;
+      right: 12%;
+      top: 70px;
+      bottom: auto;
+      width: auto;
+      height: 12px;
+      background: radial-gradient(circle, var(--clay-lemon) 5px, transparent 6px) left center / 24px 12px repeat-x;
+    }
+    .stop {
+      grid-template-columns: 1fr;
+      justify-items: center;
+      text-align: center;
+      row-gap: 8px;
+    }
+    .stop:nth-child(2) {
+      margin-top: 56px;
+    }
+    .stop-icon {
+      grid-row: auto;
+      width: 140px;
+      height: 140px;
+      padding: 16px;
+    }
+  }
+
+  /* ---------- parents bento ---------- */
+  .bento {
+    display: grid;
+    gap: 20px;
+    margin-top: 32px;
+  }
+  .tile {
+    padding: 24px;
+    display: grid;
+    gap: 12px;
+    align-content: start;
+  }
+  .tile h3 {
+    font-size: 1.5rem;
+  }
+  .tile--safe {
+    align-content: center;
+  }
+  .more {
+    margin-top: 6px;
+  }
+  @media (min-width: 768px) {
+    .bento {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .tile--email {
+      grid-row: span 2;
+    }
+    .tile {
+      padding: 32px;
+    }
+  }
+
+  /* ---------- teachers slab ---------- */
+  .slab {
+    display: grid;
+    gap: 28px;
+    padding: 28px 20px;
+  }
+  .slab-copy {
+    display: grid;
+    gap: 14px;
+    align-content: start;
+  }
+  .slab-copy p {
+    margin: 0;
+  }
+  .years-label {
+    font-weight: 800;
+  }
+  .years {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .years a {
+    text-decoration: none;
+  }
+  .slab-ctas {
+    margin-top: 8px;
+  }
+  @media (min-width: 1024px) {
+    .slab {
+      grid-template-columns: 5fr 6fr;
+      padding: 48px;
+      align-items: center;
+    }
+  }
+
+  /* ---------- testimonials: offset masonry ---------- */
+  .quote-grid {
+    list-style: none;
+    margin: 32px 0 0;
+    padding: 0;
+    display: grid;
+    gap: 20px;
+  }
+  .quote {
+    padding: 24px;
+    display: grid;
+    gap: 16px;
+    align-content: space-between;
+  }
+  .quote blockquote {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+  .who {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  .who p {
+    font-size: 0.98rem;
+    line-height: 1.4;
+  }
+  .avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    padding: 3px;
+    flex: none;
+  }
+  .avatar--pip { background: var(--clay-peach); }
+  .avatar--minty { background: var(--clay-mint); }
+  .avatar--lulu { background: var(--clay-lilac); }
+  .avatar--skye { background: var(--clay-sky); }
+  @media (min-width: 768px) {
+    .quote-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+    }
+    .quote--1,
+    .quote--3 {
+      translate: 0 40px;
+    }
+    .quotes {
+      padding-bottom: calc(clamp(44px, 5.5vw, 80px) + 40px);
+    }
+  }
+  @media (min-width: 1024px) {
+    .quote-grid {
+      grid-template-columns: 1.2fr 1fr;
+      width: 92%;
+    }
+  }
+
+  /* ---------- pricing ---------- */
+  .price-pair {
+    display: grid;
+    gap: 20px;
+    margin-top: 32px;
+  }
+  .price {
+    padding: 28px;
+    display: grid;
+    gap: 12px;
+    align-content: start;
+  }
+  .price h3 {
+    font-size: 1.5rem;
+  }
+  .big {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(2.4rem, 2rem + 2vw, 3.4rem);
+    line-height: 1;
+  }
+  .big span {
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+  .note {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font-weight: 700;
+    margin-bottom: 8px !important;
+  }
+  .price p {
+    margin: 0;
+  }
+  @media (min-width: 768px) {
+    .price-pair {
+      grid-template-columns: 1fr 1fr;
+      max-width: 920px;
+    }
+    .price {
+      padding: 36px;
+    }
+  }
+</style>

@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.astro/
+data/*.json
+data/*.jsonl
+scripts/audio/voice/_*
+.env*
+.DS_Store

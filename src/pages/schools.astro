@@ -1,0 +1,241 @@
+---
+import Base from "~/layouts/Base.astro";
+import PageHero from "~/components/PageHero.astro";
+import ClayButton from "~/components/ClayButton.astro";
+import ClassDashboard from "~/components/ClassDashboard.astro";
+import Badge from "~/components/Badge.astro";
+import Icon from "~/components/Icon.astro";
+import CurriculumExplorer from "~/islands/CurriculumExplorer.svelte";
+import DemoBooking from "~/islands/DemoBooking.svelte";
+import { SCHOOL_FREE_PUPILS, SCHOOL_PER_PUPIL, gbp } from "~/lib/pricing";
+import { SITE } from "~/data/site";
+
+const classroom = [
+  { title: "Set a world as homework", body: "Pick a class, a world and a due date. Pupils see it when they log in." },
+  { title: "See who needs help", body: "Facts each pupil finds tricky, ready before your next lesson." },
+  { title: "Logins without email", body: "Pupils sign in with a class code and a picture password." },
+];
+
+const compliance = [
+  { icon: "users-three", colour: "lemon", title: "Price per pupil", body: `The first ${SCHOOL_FREE_PUPILS} pupils are free. Then ${gbp(SCHOOL_PER_PUPIL)} per pupil per year, invoiced once.` },
+  { icon: "shield-check", colour: "mint", title: "UK GDPR", body: "The school is the controller and we are the processor. Our data processing agreement is ready to sign." },
+  { icon: "heart", colour: "pink", title: "Age Appropriate Design Code", body: "High privacy by default, no profiling, no nudges and no sharing. Our conformance statement covers all 15 standards." },
+  { icon: "book-open-text", colour: "sky", title: "DPIA template", body: "A pre-filled data protection impact assessment, so your DPO starts from a draft, not a blank page." },
+] as const;
+
+const demoSteps = [
+  "A 30 minute video call with a former primary teacher",
+  "We set up a free class for you during the call",
+  "You leave with a DPA and DPIA pack for your business manager",
+];
+---
+
+<Base title="For schools" description="Curriculum-matched maths practice for Years 1 to 6. Free for up to 30 pupils, with class dashboards, homework setting and a ready-to-sign data processing agreement.">
+  <PageHero
+    title="Maths practice your whole class will ask for"
+    lede="Homework matched to the national curriculum in England, Years 1 to 6. Free for your first 30 pupils."
+    mascot="lulu"
+    mascotAlt="Lulu, the lilac times tables friend"
+    island="sky"
+  >
+    <ClayButton href="#book" colour="lilac" icon="calendar-blank">Book a school demo</ClayButton>
+    <ClayButton href="#curriculum" colour="cream">Explore the curriculum</ClayButton>
+  </PageHero>
+
+  <section id="curriculum" class="section" aria-labelledby="cur-title">
+    <div class="wrap">
+      <h2 id="cur-title">What each year covers</h2>
+      <p class="sub measure">Choose a year group to see the topics in each world.</p>
+      <div class="explorer">
+        <CurriculumExplorer client:visible />
+      </div>
+      <p class="source">
+        Mapped to the statutory programmes of study in the national curriculum in England: mathematics (DfE, 2013).
+      </p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="class-title">
+    <div class="wrap split">
+      <div class="stack">
+        <h2 id="class-title">A dashboard for every class</h2>
+        <ul class="points" role="list">
+          {
+            classroom.map((c) => (
+              <li>
+                <Icon name="check-circle" />
+                <div>
+                  <h3>{c.title}</h3>
+                  <p>{c.body}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div class="clay clay--lilac dash-stage">
+        <ClassDashboard />
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="dp-title">
+    <div class="wrap">
+      <h2 id="dp-title">For school business managers</h2>
+      <p class="sub measure">Licensing and data protection, in plain English.</p>
+      <ul class="compliance" role="list">
+        {
+          compliance.map((c) => (
+            <li class="clay clay--surface">
+              <Badge icon={c.icon} colour={c.colour} size={60} />
+              <h3>{c.title}</h3>
+              <p>{c.body}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section id="book" class="section" aria-labelledby="book-title">
+    <div class="wrap book-wrap">
+      <div class="book-side">
+        <h2 id="book-title">Book a school demo</h2>
+        <ol class="steps" role="list">
+          {
+            demoSteps.map((s, i) => (
+              <li>
+                <span class="n clay-badge" aria-hidden="true">
+                  {i + 1}
+                </span>
+                {s}
+              </li>
+            ))
+          }
+        </ol>
+        <p>Prefer email? Write to <a href={`mailto:${SITE.schoolsEmail}`}>{SITE.schoolsEmail}</a>.</p>
+      </div>
+      <div class="clay clay--surface book-card">
+        <DemoBooking client:visible />
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .sub {
+    margin-top: 10px;
+  }
+  .explorer {
+    margin-top: 28px;
+  }
+  .source {
+    margin-top: 20px;
+    font-size: var(--fs-small);
+  }
+  .split {
+    display: grid;
+    gap: 32px;
+    align-items: center;
+  }
+  @media (min-width: 900px) {
+    .split {
+      grid-template-columns: 1fr 1.2fr;
+      gap: 56px;
+    }
+  }
+  .stack {
+    --stack: 20px;
+  }
+  .points {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 16px;
+  }
+  .points li {
+    display: flex;
+    gap: 12px;
+  }
+  .points :global(.icon) {
+    width: 28px;
+    height: 28px;
+    margin-top: 2px;
+  }
+  .points h3 {
+    font-size: 1.3rem;
+  }
+  .dash-stage {
+    padding: 20px;
+  }
+  @media (min-width: 768px) {
+    .dash-stage {
+      padding: 36px;
+      rotate: 1.2deg;
+    }
+  }
+  .compliance {
+    list-style: none;
+    margin: 28px 0 0;
+    padding: 0;
+    display: grid;
+    gap: 20px;
+  }
+  .compliance li {
+    padding: 26px;
+    display: grid;
+    gap: 10px;
+    align-content: start;
+  }
+  .compliance h3 {
+    margin-top: 6px;
+  }
+  @media (min-width: 768px) {
+    .compliance {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .book-wrap {
+    display: grid;
+    gap: 32px;
+    align-items: start;
+  }
+  @media (min-width: 1024px) {
+    .book-wrap {
+      grid-template-columns: 1fr 1.5fr;
+      gap: 56px;
+    }
+    .book-side {
+      position: sticky;
+      top: calc(var(--nav-h) + 32px);
+    }
+  }
+  .steps {
+    list-style: none;
+    margin: 24px 0;
+    padding: 0;
+    display: grid;
+    gap: 16px;
+  }
+  .steps li {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    font-weight: 700;
+  }
+  .n {
+    --size: 44px;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.2rem;
+  }
+  .book-card {
+    padding: 24px;
+  }
+  @media (min-width: 768px) {
+    .book-card {
+      padding: 40px;
+    }
+  }
+</style>

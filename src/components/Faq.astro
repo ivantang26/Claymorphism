@@ -1,0 +1,56 @@
+---
+import Icon from "./Icon.astro";
+interface Props {
+  items: { q: string; a: string }[];
+}
+const { items } = Astro.props;
+---
+
+<div class="faq">
+  {
+    items.map((f) => (
+      <details class="clay clay--surface">
+        <summary>
+          {f.q}
+          <Icon name="caret-down" class="caret" />
+        </summary>
+        <p>{f.a}</p>
+      </details>
+    ))
+  }
+</div>
+
+<style>
+  .faq {
+    display: grid;
+    gap: 14px;
+    margin-top: 28px;
+  }
+  summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 24px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.25rem;
+    line-height: 1.3;
+    cursor: pointer;
+    list-style: none;
+    border-radius: var(--r-card);
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  summary :global(.caret) {
+    transition: rotate 0.3s var(--spring);
+  }
+  details[open] summary :global(.caret) {
+    rotate: 180deg;
+  }
+  details p {
+    padding: 0 24px 22px;
+    max-width: 62ch;
+  }
+</style>

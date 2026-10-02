@@ -1,0 +1,144 @@
+/* Clay form fields: pressed-in wells with ink text. Label above, error below. */
+
+.field {
+  display: grid;
+  gap: 8px;
+}
+.field + .field,
+.field + fieldset,
+fieldset + .field {
+  margin-top: 20px;
+}
+.field label,
+.legend {
+  font-weight: 800;
+  font-size: 1.05rem;
+}
+.hint {
+  font-size: 0.95rem;
+  margin: -2px 0 0;
+}
+.input {
+  width: 100%;
+  min-height: 56px;
+  padding: 0 20px;
+  border: 2px solid transparent;
+  border-radius: 18px;
+  background: var(--field-bg, #fffdf9);
+  color: var(--ink);
+  font: 600 1.1rem/1.2 var(--font-body);
+  box-shadow:
+    inset 4px 4px 8px rgb(45 42 62 / 0.12),
+    inset -4px -4px 8px rgb(255 255 255 / 0.8);
+}
+.input::placeholder {
+  color: #5b5670;
+}
+select.input {
+  appearance: none;
+  padding-right: 48px;
+  background-image: linear-gradient(45deg, transparent 50%, var(--ink) 50%), linear-gradient(135deg, var(--ink) 50%, transparent 50%);
+  background-position:
+    calc(100% - 26px) 50%,
+    calc(100% - 19px) 50%;
+  background-size: 7px 7px;
+  background-repeat: no-repeat;
+}
+.input:focus-visible {
+  outline: 4px solid var(--focus);
+  outline-offset: 2px;
+}
+.input[aria-invalid="true"] {
+  border-color: #b3261e;
+}
+.error {
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+  margin: 0;
+  font-weight: 800;
+  font-size: 0.98rem;
+  color: var(--error, #9b1c14);
+}
+@media (prefers-color-scheme: dark) {
+  .error {
+    --error: #ffb4a8;
+  }
+}
+.error svg {
+  width: 1.2em;
+  height: 1.2em;
+  flex: none;
+  margin-top: 0.15em;
+}
+fieldset.plain {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+fieldset.plain legend {
+  padding: 0;
+  margin-bottom: 8px;
+}
+
+/* Choice tiles: radio buttons dressed as clay chips */
+.choices {
+  display: grid;
+  gap: 10px;
+}
+.choice {
+  position: relative;
+  display: block;
+  cursor: pointer;
+}
+.choice input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  margin: 0;
+  cursor: pointer;
+}
+.choice > span {
+  display: grid;
+  gap: 2px;
+  min-height: 56px;
+  align-content: center;
+  padding: 10px 18px;
+  border-radius: 18px;
+  background: #fffdf9;
+  color: var(--ink);
+  font-weight: 700;
+  border: 3px solid transparent;
+  box-shadow:
+    0 4px 8px rgb(var(--page-shadow-rgb) / 0.12),
+    inset -3px -3px 6px rgb(0 0 0 / 0.06),
+    inset 3px 3px 6px rgb(255 255 255 / 0.7);
+}
+.choice input:checked + span {
+  background: var(--choice, var(--clay-lemon));
+  border-color: var(--ink);
+}
+.choice input:focus-visible + span {
+  outline: 4px solid var(--focus);
+  outline-offset: 3px;
+}
+.choice input:disabled + span {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.check {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-weight: 700;
+  cursor: pointer;
+}
+.check input {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  margin: 0;
+  accent-color: var(--ink);
+}

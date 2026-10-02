@@ -1,0 +1,291 @@
+---
+import Base from "~/layouts/Base.astro";
+import SafetyPromise from "~/components/SafetyPromise.astro";
+import Badge from "~/components/Badge.astro";
+import Icon from "~/components/Icon.astro";
+import { SITE } from "~/data/site";
+
+const collected = [
+  {
+    what: "Free trial sign-up",
+    data: "Your email, your child's first name if you give it, their year group and the plan you chose.",
+    why: "To set up your account and email you about it.",
+    keep: "30 days after a trial ends, unless you subscribe.",
+  },
+  {
+    what: "School demo booking",
+    data: "Your name, school email, school name, role, number of pupils and the time you picked.",
+    why: "To run the demo and follow up with your school.",
+    keep: "12 months after the demo.",
+  },
+  {
+    what: "Page counts",
+    data: "Which page was viewed and whether a demo game was started or finished, as daily totals.",
+    why: "To know if the site is working. No cookies, no IP addresses, no device details.",
+    keep: "Totals only, kept for 2 years.",
+  },
+  {
+    what: "The demo game",
+    data: "Nothing. Answers and stars stay on the device and disappear when you leave the page.",
+    why: "Children should be able to play without anyone collecting anything.",
+    keep: "Not applicable.",
+  },
+];
+
+const code = [
+  "High privacy settings by default in the app, for every child",
+  "No profiling, no behavioural advertising and no nudges to play for longer",
+  "No geolocation, no microphone and no camera access",
+  "No sharing of children's data with anyone, except processors we need to run the service",
+  "Parental controls are visible to the child, so they know what a grown-up can see",
+  "Privacy information written for children as well as grown-ups (you're reading it)",
+];
+
+const kids = [
+  { icon: "prohibit", colour: "peach", text: "There are no adverts here." },
+  { icon: "chat-circle-slash", colour: "lilac", text: "Nobody can chat to you, and you can't chat to strangers." },
+  { icon: "eye-slash", colour: "sky", text: "We don't watch what you do or tell anyone about it." },
+  { icon: "lock-simple", colour: "mint", text: "Buttons that go outside the game ask a grown-up first." },
+  { icon: "heart", colour: "pink", text: "If anything feels wrong or worrying, tell a grown-up you trust." },
+] as const;
+---
+
+<Base title="Safety & privacy" description="How Doodle Math keeps children safe: no adverts, no chat, no trackers, no cookies. Privacy notice for grown-ups and a version for kids.">
+  <section class="wrap head">
+    <h1>Safety and privacy</h1>
+    <p class="lede">Doodle Math is built for children, so we collect as little as we can and never sell or share it.</p>
+    <div class="switch">
+      <a class="clay-btn clay-btn--cream" href="#grown-ups"><Icon name="book-open-text" /> For grown-ups</a>
+      <a class="clay-btn clay-btn--lemon" href="#kids"><Icon name="heart" /> For kids</a>
+    </div>
+  </section>
+
+  <section class="section tight" aria-labelledby="promise-title">
+    <div class="wrap">
+      <div class="clay clay--mint promise">
+        <h2 id="promise-title">Our promise</h2>
+        <SafetyPromise />
+      </div>
+    </div>
+  </section>
+
+  <section id="grown-ups" class="section" aria-labelledby="gu-title">
+    <div class="wrap notice">
+      <h2 id="gu-title">Privacy notice for grown-ups</h2>
+      <p class="updated">Last updated 30 September 2026</p>
+
+      <h3>Who we are</h3>
+      <p>
+        Doodle Math is the data controller for information collected on this website. For pupils using Doodle Math through
+        school, the school is the controller and we act as its processor. Contact our data protection lead at{" "}
+        <a href={`mailto:${SITE.privacyEmail}`}>{SITE.privacyEmail}</a>.
+      </p>
+
+      <h3>What this website collects</h3>
+      <div class="table">
+        {
+          collected.map((c) => (
+            <div class="row clay clay--surface">
+              <h4>{c.what}</h4>
+              <dl>
+                <div><dt>What</dt><dd>{c.data}</dd></div>
+                <div><dt>Why</dt><dd>{c.why}</dd></div>
+                <div><dt>How long</dt><dd>{c.keep}</dd></div>
+              </dl>
+            </div>
+          ))
+        }
+      </div>
+      <p>
+        Our lawful basis for trial sign-ups is taking steps to enter a contract with you. For page counts it is our
+        legitimate interest in running a working website, and because they are anonymous totals they do not identify anyone.
+      </p>
+
+      <h3 id="cookies">Cookies and trackers</h3>
+      <p>
+        This website sets no cookies and loads nothing from other companies: no analytics providers, no advertising
+        networks, no social media pixels, no embedded videos and no web fonts from third parties. A browser security
+        policy blocks third-party scripts, and an automated scan checks every release.
+      </p>
+
+      <h3>How we follow the Age Appropriate Design Code</h3>
+      <ul class="code" role="list">
+        {code.map((c) => <li><Icon name="check-circle" /> <span>{c}</span></li>)}
+      </ul>
+
+      <h3>Your rights</h3>
+      <p>
+        You can ask to see, correct or delete the information we hold about you or your child, or object to how we use it.
+        Email <a href={`mailto:${SITE.privacyEmail}`}>{SITE.privacyEmail}</a> and we'll reply within one month. If you're
+        unhappy with our answer, you can complain to the Information Commissioner's Office at{" "}
+        <a href="https://ico.org.uk/make-a-complaint/" rel="noopener">ico.org.uk</a>.
+      </p>
+    </div>
+  </section>
+
+  <section id="kids" class="section kids-section" aria-labelledby="kids-title">
+    <div class="wrap">
+      <div class="kids clay clay--lemon">
+        <div class="kids-head">
+          <img src="/art/skye-happy-320.webp" alt="Skye waving" width="180" height="180" loading="lazy" />
+          <div>
+            <h2 id="kids-title">Hello! This part is for you.</h2>
+            <p class="kids-lede">Here is how we keep you safe when you play.</p>
+          </div>
+        </div>
+        <ul class="kid-list" role="list">
+          {
+            kids.map((k) => (
+              <li>
+                <Badge icon={k.icon} colour={k.colour} size={64} />
+                <p>{k.text}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .head {
+    padding-top: 48px;
+  }
+  .head .lede {
+    margin-top: 14px;
+    max-width: 44ch;
+  }
+  .switch {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 24px;
+  }
+  .tight {
+    padding-top: 40px;
+    padding-bottom: 0;
+  }
+  .promise {
+    display: grid;
+    gap: 24px;
+    padding: 28px 22px;
+  }
+  @media (min-width: 900px) {
+    .promise {
+      grid-template-columns: 1fr 1.6fr;
+      padding: 48px;
+      align-items: center;
+    }
+  }
+  .notice {
+    max-width: calc(820px + var(--gutter) * 2);
+  }
+  .notice h3 {
+    margin: 40px 0 12px;
+    font-size: 1.5rem;
+  }
+  .notice p {
+    max-width: 66ch;
+  }
+  .updated {
+    margin-top: 8px;
+    font-weight: 700;
+  }
+  .table {
+    display: grid;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .row {
+    padding: 22px;
+  }
+  .row h4 {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+  }
+  .row dl {
+    margin: 10px 0 0;
+    display: grid;
+    gap: 8px;
+  }
+  .row dl div {
+    display: grid;
+    gap: 2px;
+  }
+  @media (min-width: 640px) {
+    .row dl div {
+      grid-template-columns: 110px 1fr;
+      gap: 12px;
+    }
+  }
+  .row dt {
+    font-weight: 800;
+  }
+  .row dd {
+    margin: 0;
+  }
+  .code {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+  }
+  .code li {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .code :global(.icon) {
+    margin-top: 4px;
+  }
+  .kids {
+    padding: 28px 22px;
+  }
+  @media (min-width: 768px) {
+    .kids {
+      padding: 48px;
+    }
+  }
+  .kids-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 24px;
+    align-items: center;
+  }
+  .kids-head img {
+    width: 150px;
+  }
+  .kids h2 {
+    font-size: clamp(2rem, 1.5rem + 2vw, 3rem);
+  }
+  .kids-lede {
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin-top: 6px;
+  }
+  .kid-list {
+    list-style: none;
+    margin: 28px 0 0;
+    padding: 0;
+    display: grid;
+    gap: 18px;
+  }
+  @media (min-width: 900px) {
+    .kid-list {
+      grid-template-columns: 1fr 1fr;
+      gap: 22px 40px;
+    }
+  }
+  .kid-list li {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+  .kid-list p {
+    font-size: 1.35rem;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+</style>

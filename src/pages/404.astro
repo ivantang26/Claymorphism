@@ -1,0 +1,18 @@
+---
+import Base from "~/layouts/Base.astro";
+import PageHero from "~/components/PageHero.astro";
+import ClayButton from "~/components/ClayButton.astro";
+---
+
+<Base title="Page not found" description="We couldn't find that page.">
+  <PageHero
+    title="Oops! This page rolled away."
+    lede="We couldn't find the page you were looking for. Let's get you back somewhere fun."
+    mascot="skye"
+    mascotAlt="Skye looking around"
+    island="mint"
+  >
+    <ClayButton href="/" colour="peach" icon="house">Go home</ClayButton>
+    <ClayButton href="/play" colour="lemon" icon="play">Play the demo</ClayButton>
+  </PageHero>
+</Base>

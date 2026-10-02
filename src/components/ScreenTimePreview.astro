@@ -1,0 +1,132 @@
+---
+// Screen-time controls, as they appear in the parent area of the app.
+// The controls work so parents can feel them, but nothing is saved.
+---
+
+<div class="controls" role="group" aria-label="Screen-time controls preview">
+  <fieldset>
+    <legend>Daily play time</legend>
+    <div class="seg">
+      {
+        [10, 20, 30].map((m) => (
+          <label>
+            <input type="radio" name="daily" value={m} checked={m === 20} />
+            <span>{m} min</span>
+          </label>
+        ))
+      }
+    </div>
+  </fieldset>
+  <label class="switch">
+    <span>Quiet hours, 7pm to 7am</span>
+    <input type="checkbox" role="switch" checked />
+  </label>
+  <label class="switch">
+    <span>Stop at the end of a world</span>
+    <input type="checkbox" role="switch" />
+  </label>
+</div>
+
+<style>
+  .controls {
+    display: grid;
+    gap: 14px;
+  }
+  fieldset {
+    border: 0;
+    padding: 0;
+    margin: 0;
+  }
+  legend {
+    font-weight: 800;
+    margin-bottom: 8px;
+    padding: 0;
+  }
+  .seg {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    padding: 6px;
+    border-radius: var(--r-pill);
+    background: rgb(45 42 62 / 0.08);
+    box-shadow:
+      inset 4px 4px 8px rgb(0 0 0 / 0.1),
+      inset -4px -4px 8px rgb(255 255 255 / 0.5);
+  }
+  .seg label {
+    position: relative;
+  }
+  .seg input {
+    position: absolute;
+    opacity: 0;
+    inset: 0;
+    margin: 0;
+    cursor: pointer;
+  }
+  .seg span {
+    display: grid;
+    place-items: center;
+    min-height: 44px;
+    border-radius: var(--r-pill);
+    font-weight: 800;
+  }
+  .seg input:checked + span {
+    background: #fffdf9;
+    box-shadow:
+      0 4px 8px rgb(45 42 62 / 0.14),
+      inset -3px -3px 6px rgb(0 0 0 / 0.08),
+      inset 3px 3px 6px rgb(255 255 255 / 0.7);
+  }
+  .seg input:focus-visible + span {
+    outline: 4px solid var(--ink);
+    outline-offset: 2px;
+  }
+  .switch {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    font-weight: 700;
+    min-height: 44px;
+    cursor: pointer;
+  }
+  .switch input {
+    appearance: none;
+    flex: none;
+    width: 60px;
+    height: 34px;
+    margin: 0;
+    border-radius: var(--r-pill);
+    background: rgb(45 42 62 / 0.14);
+    box-shadow:
+      inset 3px 3px 6px rgb(0 0 0 / 0.14),
+      inset -3px -3px 6px rgb(255 255 255 / 0.5);
+    position: relative;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .switch input::after {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #fffdf9;
+    box-shadow:
+      0 3px 5px rgb(45 42 62 / 0.25),
+      inset -2px -2px 4px rgb(0 0 0 / 0.08);
+    transition: translate 0.3s var(--spring);
+  }
+  .switch input:checked {
+    background: var(--ink);
+  }
+  .switch input:checked::after {
+    translate: 26px 0;
+  }
+  .switch input:focus-visible {
+    outline: 4px solid var(--ink);
+    outline-offset: 3px;
+  }
+</style>

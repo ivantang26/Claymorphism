@@ -1,0 +1,24 @@
+---
+import Mascot from "./Mascot.astro";
+import type { Mascot as M } from "~/data/worlds";
+
+interface Props {
+  colour?: "peach" | "mint" | "lilac" | "sky" | "lemon" | "pink" | "surface";
+  peek?: { name: M; alt: string };
+  as?: "div" | "article" | "li" | "section";
+  class?: string;
+  [key: string]: unknown;
+}
+const { colour = "surface", peek, as: Tag = "div", class: cls, ...rest } = Astro.props;
+---
+
+<Tag class:list={["clay", `clay--${colour}`, "clay-card", peek && "clay-card--peek", cls]} {...rest}>
+  {
+    peek && (
+      <div class="clay-card__peek">
+        <Mascot name={peek.name} alt={peek.alt} sizes="150px" />
+      </div>
+    )
+  }
+  <slot />
+</Tag>

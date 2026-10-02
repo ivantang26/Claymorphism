@@ -1,0 +1,25 @@
+---
+interface Props {
+  value: number;
+  max?: number;
+  label: string;
+  fill?: "lemon" | "peach" | "mint" | "lilac" | "sky";
+  star?: boolean;
+  class?: string;
+}
+const { value, max = 1, label, fill = "lemon", star = true, class: cls } = Astro.props;
+const ratio = Math.max(0, Math.min(1, value / max));
+---
+
+<div
+  class:list={["clay-progress", "clay-well", cls]}
+  role="progressbar"
+  aria-label={label}
+  aria-valuemin="0"
+  aria-valuemax={max}
+  aria-valuenow={value}
+  style={`--value:${ratio.toFixed(3)};--fill:var(--clay-${fill})`}
+>
+  <div class="clay-progress__fill"></div>
+  {star && <img class="clay-progress__star" src="/art/star-128.webp" alt="" width="50" height="50" loading="lazy" />}
+</div>

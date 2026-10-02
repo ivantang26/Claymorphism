@@ -1,0 +1,62 @@
+---
+import "~/styles/global.css";
+import Nav from "~/components/Nav.astro";
+import Footer from "~/components/Footer.astro";
+import baloo800 from "@fontsource/baloo-2/files/baloo-2-latin-800-normal.woff2?url";
+import nunito500 from "@fontsource/nunito/files/nunito-latin-500-normal.woff2?url";
+
+interface Props {
+  title: string;
+  description: string;
+  /** Full-screen pages (the demo game) skip the site chrome. */
+  bare?: boolean;
+  class?: string;
+}
+const { title, description, bare = false, class: cls } = Astro.props;
+const fullTitle = title === "Doodle Math" ? "Doodle Math: maths that feels like play" : `${title} | Doodle Math`;
+---
+
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#FFF8F0" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1F1C2C" media="(prefers-color-scheme: dark)" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <link rel="icon" href="/art/mark-64.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/art/mark-180.png" />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <link rel="preload" href={baloo800} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={nunito500} as="font" type="font/woff2" crossorigin />
+    <slot name="head" />
+  </head>
+  <body class={cls}>
+    <a class="skip-link" href="#main">Skip to content</a>
+    {!bare && <Nav />}
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    {!bare && <Footer />}
+    <script>
+      import { track } from "~/lib/analytics";
+      track("pageview");
+
+      // Mascots jump when tapped (hover handles mouse in CSS).
+      document.addEventListener("pointerdown", (e) => {
+        const m = (e.target as Element | null)?.closest?.<HTMLElement>("[data-mascot]");
+        if (!m) return;
+        m.removeAttribute("data-jump");
+        void m.offsetWidth; // restart the animation
+        m.setAttribute("data-jump", "");
+      });
+      document.addEventListener("animationend", (e) => {
+        if (e.animationName === "jump") (e.target as HTMLElement).removeAttribute("data-jump");
+      });
+    </script>
+  </body>
+</html>

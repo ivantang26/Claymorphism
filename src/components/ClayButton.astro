@@ -1,0 +1,35 @@
+---
+import Icon from "./Icon.astro";
+import type { IconName } from "~/lib/icons";
+
+type Colour = "peach" | "lemon" | "mint" | "lilac" | "sky" | "cream";
+interface Props {
+  href?: string;
+  colour?: Colour;
+  size?: "sm" | "md" | "xl";
+  icon?: IconName;
+  iconEnd?: IconName;
+  block?: boolean;
+  type?: "button" | "submit";
+  class?: string;
+  [key: string]: unknown;
+}
+const { href, colour = "peach", size = "md", icon, iconEnd, block, type = "button", class: cls, ...rest } = Astro.props;
+const classes = ["clay-btn", `clay-btn--${colour}`, size !== "md" && `clay-btn--${size}`, block && "clay-btn--block", cls];
+---
+
+{
+  href ? (
+    <a href={href} class:list={classes} {...rest}>
+      {icon && <Icon name={icon} />}
+      <slot />
+      {iconEnd && <Icon name={iconEnd} />}
+    </a>
+  ) : (
+    <button type={type} class:list={classes} {...rest}>
+      {icon && <Icon name={icon} />}
+      <slot />
+      {iconEnd && <Icon name={iconEnd} />}
+    </button>
+  )
+}

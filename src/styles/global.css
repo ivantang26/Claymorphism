@@ -1,0 +1,159 @@
+@import "@fontsource/baloo-2/latin-700.css";
+@import "@fontsource/baloo-2/latin-800.css";
+@import "@fontsource/nunito/latin-500.css";
+@import "@fontsource/nunito/latin-700.css";
+@import "@fontsource/nunito/latin-800.css";
+@import "./tokens.css";
+@import "./clay.css";
+@import "./forms.css";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--nav-h) + 16px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  line-height: 1.08;
+  margin: 0;
+  text-wrap: balance;
+}
+h1 {
+  font-size: var(--fs-display);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+h2 {
+  font-size: var(--fs-h2);
+  font-weight: 700;
+}
+h3 {
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  line-height: 1.2;
+}
+p {
+  margin: 0;
+  text-wrap: pretty;
+}
+p + p {
+  margin-top: 0.8em;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.18em;
+}
+
+strong {
+  font-weight: 800;
+}
+
+/* outlines follow each element's own radius, so pills get pill-shaped rings */
+:focus-visible {
+  outline: 4px solid var(--focus);
+  outline-offset: 3px;
+}
+a:focus-visible {
+  border-radius: 6px;
+}
+
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: 16px;
+  top: -80px;
+  z-index: 100;
+  background: var(--clay-lemon);
+  color: var(--ink);
+  padding: 12px 20px;
+  border-radius: var(--r-pill);
+  font-weight: 800;
+}
+.skip-link:focus {
+  top: 12px;
+}
+
+/* ---------- layout ---------- */
+
+.wrap {
+  width: 100%;
+  max-width: calc(var(--max) + var(--gutter) * 2);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  padding-block: clamp(44px, 5.5vw, 80px);
+}
+
+.stack > * + * {
+  margin-top: var(--stack, 1rem);
+}
+
+.lede {
+  font-size: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+  max-width: 34ch;
+}
+
+.measure {
+  max-width: 62ch;
+}
+
+.kicker {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+}
+
+/* Decorative clay pieces never reach assistive tech; markup marks them aria-hidden. */
+.deco {
+  pointer-events: none;
+  user-select: none;
+}

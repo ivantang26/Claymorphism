@@ -1,0 +1,45 @@
+---
+import Faq from "~/components/Faq.astro";
+import Base from "~/layouts/Base.astro";
+import PricingPlans from "~/islands/PricingPlans.svelte";
+import { FAMILY_TRIAL_DAYS, SCHOOL_FREE_PUPILS } from "~/lib/pricing";
+
+const faqs = [
+  { q: "What happens when the trial ends?", a: `We email you 3 days before your ${FAMILY_TRIAL_DAYS}-day trial ends. If you don't choose a plan, the account pauses. Nothing is charged automatically.` },
+  { q: "Can I switch between monthly and annual?", a: "Yes. Switching to annual applies from your next bill, and we credit what's left of the month." },
+  { q: `Is it really free for schools with ${SCHOOL_FREE_PUPILS} pupils?`, a: "Yes, with every feature included. Most schools start with one class and add more later." },
+  { q: "Do you offer discounts?", a: "Families receiving Universal Credit get a free annual plan. Email us and we'll set it up, no forms or proof needed." },
+];
+---
+
+<Base title="Pricing" description="Family plans from £4.00 a month billed yearly, with a 14-day free trial. Free for schools up to 30 pupils, then per pupil.">
+  <section class="wrap head">
+    <h1>Simple prices</h1>
+    <p class="lede">One plan for families. One price per pupil for schools. No adverts or in-app purchases, ever.</p>
+  </section>
+
+  <section class="wrap" aria-label="Plans">
+    <PricingPlans client:load />
+  </section>
+
+  <section class="section" aria-labelledby="faq-title">
+    <div class="wrap narrow">
+      <h2 id="faq-title">Pricing questions</h2>
+      <Faq items={faqs} />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .head {
+    padding-top: 48px;
+    padding-bottom: 32px;
+  }
+  .head .lede {
+    margin-top: 14px;
+    max-width: 44ch;
+  }
+  .narrow {
+    max-width: calc(820px + var(--gutter) * 2);
+  }
+</style>
