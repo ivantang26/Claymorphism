@@ -23,7 +23,12 @@ const local = (url, from) => {
 };
 
 function collect(page, withAudio) {
-  const html = path.join(CLIENT, page);
+  const route = page === "index.html" ? "" : page.slice(0, -".html".length);
+  const html = [
+    path.join(CLIENT, page),
+    path.join(CLIENT, route, "index.html"),
+  ].find(existsSync);
+  if (!html) throw new Error(`Could not find built page for ${page} in ${CLIENT}`);
   const seen = new Map();
   const add = (f, kind) => f && !seen.has(f) && seen.set(f, kind);
   const text = readFileSync(html, "utf8");

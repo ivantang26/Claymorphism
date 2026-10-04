@@ -2,6 +2,9 @@
 import { defineConfig } from "astro/config";
 import svelte from "@astrojs/svelte";
 import node from "@astrojs/node";
+import vercel from "@astrojs/vercel";
+
+const adapter = process.env.VERCEL === "1" ? vercel() : node({ mode: "standalone" });
 
 // Marketing pages are prerendered; only /api/* runs on the server.
 // CSP: everything loads from our own origin. No third-party scripts, frames,
@@ -9,7 +12,7 @@ import node from "@astrojs/node";
 export default defineConfig({
   site: "https://doodlemath.example",
   output: "static",
-  adapter: node({ mode: "standalone" }),
+  adapter,
   integrations: [svelte()],
   trailingSlash: "never",
   build: { format: "file" },

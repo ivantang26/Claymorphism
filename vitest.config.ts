@@ -1,6 +1,7 @@
 import { defineConfig } from "vitest/config";
+import { fileURLToPath } from "node:url";
 
 export default defineConfig({
-  resolve: { alias: { "~": new URL("./src", import.meta.url).pathname.replace(/^\/(\w:)/, "$1") } },
+  resolve: { alias: { "~": fileURLToPath(new URL("./src", import.meta.url)) } },
   test: { include: ["tests/**/*.test.ts"] },
 });
